@@ -1,6 +1,47 @@
-import { getStringInfo, toUpperCase } from "../app/Utils"
+import { StringUtils, getStringInfo, toUpperCase } from "../app/Utils"
 
 describe('Utils test suite', () => {
+
+    describe('StringUtils tests', () => {
+        let sut: StringUtils;
+
+        beforeEach(() => {
+            sut = new StringUtils();
+            console.log('Setup')
+        })
+
+        it('Should return correct upperCase', () => {
+            const actual = sut.toUpperCase('abc');
+
+            expect(actual).toBe('ABC');
+            console.log('Actual test')
+        })
+
+        it('Should throw error on invalid argument - function', () => {
+            function expcetError() {
+                const actual = sut.toUpperCase('');
+            }
+            expect(expcetError).toThrow();
+            expect(expcetError).toThrowError('Invalid Argument')
+        })
+        it('Should throw error on invalid argument - arrow function', () => {
+            expect(() => { 
+                const actual = sut.toUpperCase('')
+            }).toThrowError('Invalid Argument')
+        })
+
+        it('Shuuld throw error on invalid argument - try catch block', (done) => {
+            try {
+                sut.toUpperCase('');
+                done('GetStringInfo should throw error for invalid args')
+            } catch (error) {
+                expect(error).toBeInstanceOf(Error);
+                expect(error).toHaveProperty('message', 'Invalid Argument');
+                done();
+            }
+        })
+    })
+
     it('should return uppercase of valid string', () => {
         // arrange
         const sut = toUpperCase;
